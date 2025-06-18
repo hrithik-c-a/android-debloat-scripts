@@ -3,13 +3,12 @@
 # List of packages to debloat
 packages=(
 
-# --- Google Apps to remove ---
+# --- Google Apps to Remove ---
 com.google.android.youtube
 com.google.android.gm
 com.android.chrome
 com.google.android.apps.translate
 com.google.android.apps.docs
-com.google.android.apps.photos   # You said you want to keep Photos; ensure this refers to Google Photos, not Gallery
 com.google.android.apps.maps
 com.google.android.keep
 com.google.android.apps.nbu.paisa.user
@@ -24,14 +23,19 @@ com.google.android.apps.magazines
 com.google.android.music
 com.google.android.feedback
 com.google.android.googlequicksearchbox
-com.google.android.calendar       # <- Added now
-com.android.vending       
+com.google.android.calendar
+com.google.android.apps.photos
+com.google.android.inputmethod.latin
+com.google.ar.lens
+com.google.android.gms      # Google Play Services
+com.android.vending        # Google Play Store
 
 # --- Facebook Pre-installs ---
 com.facebook.app
 com.facebook.services
 com.facebook.appmanager
 com.facebook.system
+com.facebook.katana
 
 # --- Realme / HeyTap / ColorOS Bloatware ---
 com.heytap.cloud
@@ -59,13 +63,18 @@ com.coloros.wallpapers
 com.coloros.translate.engine
 com.coloros.karaoke
 com.coloros.healthcheck
-com.coloros.uxdesign
 com.coloros.lockassistant
 com.coloros.simsettings
-com.coloros.eyeprotect
 com.coloros.ocs.opencapabilityservice
 com.coloros.encryption
 com.coloros.athena
+com.android.fmradio       
+com.heytap.music
+com.coloros.video
+com.coloros.gallery3d
+com.coloros.calculator
+com.coloros.filemanager
+com.coloros.photos
 
 # --- Other Pre-installed or Tracking Apps ---
 com.nearme.gamecenter
@@ -85,12 +94,18 @@ com.glance.internet
 com.finshell.fin
 com.coloros.apprecover
 com.ted.number
+com.realmecomm.app
+com.os.docvault
+com.realme.link
+com.realmestore.app
+com.coloros.onekeylockscreen
+com.coloros.videoeditor
+com.coloros.compass2
 
-# Optional/Harmless (commented out for safety)
-# com.android.egg           # Android Easter egg
-# com.android.fmradio       # Keep if you use FM Radio
-# com.google.android.setupwizard  # KEEP unless using de-Googled ROM
-# com.google.android.apps.restore # Optional backup tool
+
+# --- Eye Protection Features (KEEP) ---
+# com.coloros.uxdesign       # Night Light Scheduling
+# com.coloros.eyeprotect     # Eye Comfort Mode
 )
 
 # Function to uninstall or disable a package
@@ -98,16 +113,14 @@ debloat_package() {
   local package_name="$1"
 
   echo "Attempting to uninstall $package_name..."
-
   adb shell pm uninstall -k --user 0 "$package_name"
 
   if [ $? -ne 0 ]; then
     echo "Uninstall failed. Attempting to disable $package_name..."
-
     adb shell pm disable-user --user 0 "$package_name"
 
     if [ $? -ne 0 ]; then
-      echo "Disabling $package_name also failed. Please check adb connection and root status."
+      echo "Disabling $package_name also failed. Please check ADB connection and root status."
     else
       echo "$package_name disabled successfully."
     fi
@@ -118,7 +131,7 @@ debloat_package() {
 
 # Check if adb is available
 if ! command -v adb &> /dev/null; then
-  echo "adb could not be found. Please install adb and add it to your PATH."
+  echo "ADB could not be found. Please install ADB and add it to your PATH."
   exit 1
 fi
 
