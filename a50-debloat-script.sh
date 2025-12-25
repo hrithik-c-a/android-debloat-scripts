@@ -12,7 +12,7 @@ if [ -z "$DEVICE_SERIAL" ]; then
 fi
 
 packages=(
-  # --- 1. DE-GOOGLE (Tracking & Bloat) ---
+  # --- 1. DE-GOOGLE (Tracking, AR & Intelligence) ---
   com.android.chrome                       # Chrome
   com.google.android.youtube               # YouTube
   com.google.android.apps.docs             # Drive
@@ -29,7 +29,12 @@ packages=(
   com.google.android.contacts              # Google Contacts
   com.android.vending                      # Play Store
   com.google.android.feedback              # Feedback tracking
-  com.google.android.gms.location.history  # Location History Tracking
+  com.google.android.gms.location.history  # Location History
+  com.google.android.projection.gearhead   # Android Auto
+  com.google.android.as                    # Android System Intelligence
+  com.google.android.tts                   # Google Text-to-Speech
+  com.google.ar.core                       # Google Play Services for AR
+  com.google.android.apps.assistant        # Google Assistant
   
   # --- 2. SAMSUNG ACCOUNT, CLOUD & PASS ---
   com.osp.app.signin                       # Samsung Account (SIGN OUT FIRST)
@@ -38,6 +43,7 @@ packages=(
   com.samsung.android.samsungpassautofill  # Samsung Pass Auto-fill
   com.samsung.android.authfw               # Authentication Framework
   com.samsung.android.app.spage            # Samsung Free / Daily
+  com.samsung.android.mobileservice        # Samsung Experience Service
   
   # --- 3. BIXBY & ROUTINES ---
   com.samsung.android.app.routines         # Bixby Routines / Modes
@@ -47,7 +53,7 @@ packages=(
   com.samsung.android.visionintelligence   # Bixby Vision
   com.samsung.android.bixbyvision.framework
   
-  # --- 4. BLOATWARE & AD PLATFORMS ---
+  # --- 4. BLOATWARE, ADS & APP CLOUD ---
   com.sec.android.app.samsungapps          # Galaxy Store
   com.samsung.android.app.tips             # Tips
   com.samsung.android.kidsinstaller        # Samsung Kids
@@ -56,25 +62,36 @@ packages=(
   com.aura.oobe.samsung.gl                 # App Cloud (Pre-install ads)
   com.aura.oobe.samsung                    # App Cloud Alternative
   com.ironsource.appcloud.oobe             # App Cloud Framework
+  com.samsung.android.app.sreminder        # Reminders
+  com.samsung.main.app.globalgoals         # Samsung Global Goals (Ads)
   
-  # --- 5. AR & GALAXY FRIENDS ---
+  # --- 5. AR, STICKERS & GALAXY FRIENDS ---
   com.samsung.android.arzone               # AR Zone
   com.samsung.android.aremoji              # AR Emoji
   com.samsung.android.aremojieditor        # AR Emoji Editor
   com.samsung.android.arcanvas             # AR Canvas
   com.samsung.android.livestickers         # Live Stickers
+  com.samsung.android.app.stickercenter    # Sticker Center
   com.samsung.android.mateagent            # Galaxy Friends
   
-  # --- 6. LINK TO WINDOWS ---
+  # --- 6. LINK TO WINDOWS & CONNECTIVITY ---
   com.microsoft.appmanager                 # Link to Windows Service
   com.samsung.android.mdx                  # Link to Windows (Connectivity)
   com.samsung.android.mdx.kit              # Link to Windows Framework
+  com.samsung.android.allshare.service.mediashare # Nearby Device Scanning
+  com.samsung.android.beaconmanager        # Nearby/Bluetooth Beacon tracking
   
-  # --- 7. KEYBOARD CONTENT & SMART CLIP ---
+  # --- 7. ANT+ & LEGACY RADIO ---
+  com.dsi.ant.service.socket               # ANT Radio Service
+  com.dsi.ant.sample.acquirechannels       # ANT+ Plugins
+  com.dsi.ant.plugins.antplus              # ANT+ Plugins
+  com.dsi.ant.server                       # ANT+ Server
+  
+  # --- 8. KEYBOARD CONTENT & SMART CLIP ---
   com.samsung.android.honeyboard.overlay.cpp # Keyboard Content Provider
   com.samsung.android.smartclip.collector    # Analytics/Content tracking
   
-  # --- 8. GAMING & TELEMETRY ---
+  # --- 9. GAMING & TELEMETRY ---
   com.samsung.android.game.gamehome        # Game Launcher
   com.samsung.android.game.gametools       # Game Tools
   com.samsung.android.game.gos             # Game Optimizing Service
@@ -82,14 +99,19 @@ packages=(
   com.samsung.android.da.daagent           # Data Analysis Agent
   com.samsung.android.ipsgeofence          # Geo-fencing tracking
   com.samsung.android.mdecservice          # Call/Text on other devices
+  com.sec.android.diagmonagent             # Diagnostic Monitor
+  com.samsung.android.rubin.app            # Customization Service (Deep tracking)
   
-  # --- 9. FACEBOOK & MICROSOFT ---
+  # --- 10. THIRD-PARTY BLOAT (FB/MS/Other) ---
   com.facebook.katana
   com.facebook.system
   com.facebook.appmanager
   com.facebook.services
   com.microsoft.skydrive                   # OneDrive
   com.microsoft.office.officehubrow        # Office
+  com.linkedin.android                    # LinkedIn
+  com.samsung.android.app.wan.mcf          # Samsung Smart Continuity (If not using Samsung Tablet)
+  com.sec.android.app.billing              # Samsung Checkout
 )
 
 debloat_package() {
@@ -99,7 +121,7 @@ debloat_package() {
   if [ $? -eq 0 ]; then echo "DONE"; else echo "ALREADY GONE/FAIL"; fi
 }
 
-echo "Starting Deep Clean on $DEVICE_SERIAL..."
+echo "Starting Absolute Deep Clean on $DEVICE_SERIAL..."
 for package in "${packages[@]}"; do
   debloat_package "$package"
 done
